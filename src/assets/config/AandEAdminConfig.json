@@ -1,0 +1,10 @@
+{
+  "uris": {
+    "baseuri": "https://synapsedynamicapi.azurewebsites.net",
+    "autonomicsbaseuri": "https://interneuron-autonomic.azurewebsites.net/Autonomic",
+    "postaneencounteruri": "/PostObject?synapsenamespace=local&synapseentityname=ane_encounter",
+    "getadmissiondetailsuri": "/GetListByAttribute?synapsenamespace=local&synapseentityname=ane_encounter&synapseattributename=person_id&attributevalue=",
+    "orderbyandlimitclauseforgetadmissiondetails": "&orderby=_sequenceid DESC&limit=1"
+  },
+  "enablelogging": false
+}

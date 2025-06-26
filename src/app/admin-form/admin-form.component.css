@@ -1,0 +1,326 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --light-green-color: #dcffcc;
+  --aqua-color: #9fdfcd;
+  --light-purple-color: #baabda;
+  --pink-color: #d79abc;
+  --pale-green-color: #c2e8ce;
+  --beige-color: #f2eee5;
+  --pale-pink-color: #ffe3ed;
+  --muddy-brown-color: #be7575;
+  --salmon-color: #f1d4d4;
+  --amber-color: #ffad87;
+  --dirty-yellow-color: #f1d6ab;
+  --army-green-color: #6f9a8d;
+  --pale-yellow-color: #fff8cd;
+  --mauve-color: #ac8daf;
+  --gray-purple-color: #e3e7f1;
+  --cream-color: #fff4e4;
+  --pale-steel-blue: #beebe9;
+  --baby-blue-color: #e6f8f9;
+}
+
+.bs-timepicker-field {
+  width: 55px !important;
+}
+
+.light-green-color {
+  background-color: var(--light-green-color);
+}
+
+.aqua-color {
+  background-color: var(--aqua-color);
+}
+
+.light-purple-color {
+  background-color: var(--light-purple-color);
+}
+
+.pink-color {
+  background-color: var(--pink-color);
+}
+
+.pale-green-color {
+  background-color: var(--pale-green-color);
+}
+
+.beige-color {
+  background-color: var(--beige-color);
+}
+
+.pale-pink-color {
+  background-color: var(--pale-pink-color);
+}
+
+.psychiatry-color {
+  background-color: var(--muddy-brown-color);
+}
+
+.salmon-color {
+  background-color: var(--salmon-color);
+}
+
+.mauve-color {
+  background-color: var(--mauve-color);
+}
+
+.amber-color {
+  background-color: var(--amber-color);
+}
+
+.dirty-yellow-color {
+  background-color: var(--dirty-yellow-color);
+}
+
+.army-green-color {
+  background-color: var(--army-green-color);
+}
+
+.pale-yellow-color {
+  background-color: var(--pale-yellow-color);
+}
+
+.gray-purple-color {
+  background-color: var(--gray-purple-color);
+}
+
+body {
+  font-size: 0.95em !important;
+}
+
+h3 {
+  margin: 10px;
+  padding: 12px 12px 12px 10px;
+  color: gray;
+}
+
+#noDiagnosis {
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#MainDiagnosis {
+  border: 1px solid black;
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Injuries {
+  border: 1px solid black;
+  background-color: var(--pale-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Medicine {
+  border: 1px solid black;
+  background-color: var(--aqua-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#MinorIllness {
+  border: 1px solid black;
+  background-color: var(--light-purple-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#ObsandGynae {
+  border: 1px solid black;
+  background-color: var(--pink-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Ophthalmology {
+  border: 1px solid black;
+  background-color: var(--pale-green-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Orthopaedics {
+  border: 1px solid black;
+  background-color: var(--beige-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#OtherCategory {
+  border: 1px solid black;
+  background-color: var(--gray-purple-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Psychiatry {
+  border: 1px solid black;
+  background-color: var(--mauve-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Surgery {
+  border: 1px solid black;
+  background-color: var(--salmon-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Urology {
+  border: 1px solid black;
+  background-color: var(--amber-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#los {
+  border: 2px dotted black;
+  background-color: var(--amber-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+/* #AnatomicalArea {border: 1px solid black; background-color: lightblue; margin: 10px; border-radius: 2px; padding:12px;} */
+#Investigation {
+  border: 1px solid black;
+  background-color: var(--dirty-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#AdditionalTreatments {
+  border: 1px solid black;
+  background-color: var(--cream-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Anaesthesia {
+  border: 1px solid black;
+  background-color: var(--salmon-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Discharge {
+  border: 1px solid black;
+  background-color: var(--mauve-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#LifeSupport {
+  border: 1px solid black;
+  background-color: var(--pale-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Medication {
+  border: 1px solid black;
+  background-color: var(--pale-green-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#MinorTreatments {
+  border: 1px solid black;
+  background-color: var(--beige-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Monitoring {
+  border: 1px solid black;
+  background-color: var(--baby-blue-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Procedures {
+  border: 1px solid black;
+  background-color: var(--gray-purple-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#WoundClosures {
+  border: 1px solid black;
+  background-color: var(--pale-steel-blue);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+
+
+#HeadandNeck {
+  border: 1px solid black;
+  background-color: var(--pale-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#UpperLimb {
+  border: 1px solid black;
+  background-color: var(--pale-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Trunk {
+  border: 1px solid black;
+  background-color: var(--pale-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#LowerLimb {
+  border: 1px solid black;
+  background-color: var(--pale-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#Laterallity {
+  border: 1px solid black;
+  background-color: var(--pale-yellow-color);
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+#saveAndCancel {
+  margin: 10px;
+  border-radius: 2px;
+  padding: 12px;
+  height: 65px;
+}

@@ -1,0 +1,412 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="container-fluid">
+  <form #AdminForm="ngForm">
+    <h3>Administration</h3>
+    <div id="Injuries">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Admit Date / Time</label>
+        <div class="col-sm-2">
+          <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default', adaptivePosition: true }" class="form-control" bsDatepicker name="txtLocationTime" [(bsValue)]="admitDate" value="{{admitDate | date: 'dd/MM/yyyy'}}" (focusout)="onFocusOutEffectiveDischargeDifference()">
+        </div>
+        <div class="col-sm-2">
+          <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtAdmitTime" [(ngModel)]="admitTime" (focusout)="onFocusOutEffectiveDischargeDifference()"></timepicker>
+        </div>
+      </div>
+      <div *ngIf="admitError.isError" class="alert alert-danger col-sm-4">
+        {{ admitError.errorMessage }}
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Presenting Complaint</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" [(ngModel)]="encounter.presentingcomplaint" name="txtPresentingComplaint" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Ambulance Reference</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" name="txtAmbulanceRef" [(ngModel)]="encounter.ambulancereference" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">A & E Status</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlAnEStatus" name="ddlAnEStatus" [(ngModel)]="encounter.anestatus">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Waiting Area">Waiting Area</option>
+            <option value="Triage / Initial Assessment">Triage / Initial Assessment</option>
+            <option value="Treatment Started">Treatment Started</option>
+            <option value="Treated – waiting for TTO">Treated – waiting for TTO</option>
+            <option value="Treated – Waiting for Discharge">Treated – Waiting for Discharge</option>
+            <option value="Transferred">Transferred</option>
+            <option value="Discharged">Discharged</option>
+            <option value="Left before Treatment">Left before Treatment</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Clinician</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlClinician" name="ddlClinician" [(ngModel)]="encounter.clinician">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Mr. Bhatt">Mr. Bhatt</option>
+            <option value="Mr. Calvin">Mr. Calvin</option>
+            <option value="Mrs. Conway">Mrs. Conway</option>
+            <option value="Mr. George">Mr. George</option>
+            <option value="Mrs. Gibson">Mrs. Gibson</option>
+            <option value="Mr. Hobbes">Mr. Hobbes</option>
+            <option value="Miss Kumar">Miss Kumar</option>
+            <option value="Mr. Patel">Mr. Patel</option>
+            <option value="Mr. Ratnasothy">Mr. Ratnasothy</option>
+            <option value="Mr. Smith">Mr. Smith</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Triage Category</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlTriageCategory" name="ddlTriageCategory" [(ngModel)]="encounter.triagecategory">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Red">Red (Immediate Resuscitation)</option>
+            <option value="Orange">Orange (Very Urgent)</option>
+            <option value="Yellow">Yellow (Urgent)</option>
+            <option value="Green">Green (Standard)</option>
+            <option value="Blue">Blue (Non-Urgent)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Location</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlLocation" name="ddlLocation" [(ngModel)]="encounter.anecategory">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Resus">Resus</option>
+            <option value="Majors">Majors</option>
+            <option value="Minors">Minors</option>
+            <option value="Paeds Majors">Paeds Majors</option>
+            <option value="Paeds Minors">Paeds Minors</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="encounter.anecategory != undefined && encounter.anecategory != 'Please Select'">
+        <label class="col-sm-2 col-form-label">Location Ward</label>
+        <div class="col-sm-4" *ngIf="encounter.anecategory=='Resus'">
+          <select class="form-control" id="ddlLocationWard" name="ddlLocationWard" [(ngModel)]="encounter.anelocation">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Resus Bay 1">Resus Bay 1</option>
+            <option value="Resus Bay 2">Resus Bay 2</option>
+            <option value="Resus Bay 3">Resus Bay 3</option>
+            <option value="Resus Bay 4">Resus Bay 4</option>
+            <option value="Resus Bay 5">Resus Bay 5</option>
+          </select>
+        </div>
+        <div class="col-sm-4" *ngIf="encounter.anecategory=='Majors'">
+          <select class="form-control" id="ddlLocationWard" name="ddlLocationWard" [(ngModel)]="encounter.anelocation">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Majors Bay 1">Majors Bay 1</option>
+            <option value="Majors Bay 2">Majors Bay 2</option>
+            <option value="Majors Bay 3">Majors Bay 3</option>
+            <option value="Majors Bay 4">Majors Bay 4</option>
+            <option value="Majors Bay 5">Majors Bay 5</option>
+          </select>
+        </div>
+        <div class="col-sm-4" *ngIf="encounter.anecategory=='Minors'">
+          <select class="form-control" id="ddlLocationWard" name="ddlLocationWard" [(ngModel)]="encounter.anelocation">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Minors Bay 1">Minors Bay 1</option>
+            <option value="Minors Bay 2">Minors Bay 2</option>
+            <option value="Minors Bay 3">Minors Bay 3</option>
+            <option value="Minors Bay 4">Minors Bay 4</option>
+            <option value="Minors Bay 5">Minors Bay 5</option>
+          </select>
+        </div>
+        <div class="col-sm-4" *ngIf="encounter.anecategory=='Paeds Majors'">
+          <select class="form-control" id="ddlLocationWard" name="ddlLocationWard" [(ngModel)]="encounter.anelocation">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Paeds Majors Bay 1">Paeds Majors Bay 1</option>
+            <option value="Paeds Majors Bay 2">Paeds Majors Bay 2</option>
+            <option value="Paeds Majors Bay 3">Paeds Majors Bay 3</option>
+            <option value="Paeds Majors Bay 4">Paeds Majors Bay 4</option>
+            <option value="Paeds Majors Bay 5">Paeds Majors Bay 5</option>
+          </select>
+        </div>
+        <div class="col-sm-4" *ngIf="encounter.anecategory=='Paeds Minors'">
+          <select class="form-control" id="ddlLocationWard" name="ddlLocationWard" [(ngModel)]="encounter.anelocation">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Paeds Minors Bay 1">Paeds Minors Bay 1</option>
+            <option value="Paeds Minors Bay 2">Paeds Minors Bay 2</option>
+            <option value="Paeds Minors Bay 3">Paeds Minors Bay 3</option>
+            <option value="Paeds Minors Bay 4">Paeds Minors Bay 4</option>
+            <option value="Paeds Minors Bay 5">Paeds Minors Bay 5</option>
+          </select>
+        </div>
+      </div>
+      <!--<div class="form-group row">
+      <label class="col-sm-2 col-form-label">Location Timestamp</label>
+      <div class="col-sm-2">
+        <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default' }" class="form-control" bsDatepicker name="txtLocationDate" [(ngModel)]="locationDate">
+      </div>
+      <div class="col-sm-2">
+        <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtLocationTime" [(ngModel)]="locationTime"></timepicker>
+      </div>
+    </div>-->
+
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">RAT or See</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlRatOrSee" name="ddlRatOrSee" [(ngModel)]="encounter.ratorsee">
+            <option value="None">None</option>
+            <option value="RAT">RAT</option>
+            <option value="See">See</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">CT</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlCT" name="ddlCT" [(ngModel)]="encounter.ct">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Required">Required</option>
+            <option value="Requested">Requested</option>
+            <option value="Performed">Performed</option>
+            <option value="Reviewed">Reviewed</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">X-Ray</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlXray" name="ddlXray" [(ngModel)]="encounter.xray">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Required">Required</option>
+            <option value="Requested">Requested</option>
+            <option value="Performed">Performed</option>
+            <option value="Reviewed">Reviewed</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <h3>Triage</h3>
+    <div id="Orthopaedics">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Triage Completed Flag</label>
+        <div class="col-sm-4">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="chkbxTriageCompleted" [(ngModel)]="encounter.triaged" value="1" (change)="checkTriaged();">
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="encounter.triaged">
+        <label class="col-sm-2 col-form-label">Triage Date / Time</label>
+        <div class="col-sm-2">
+          <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default', adaptivePosition: true }" class="form-control" bsDatepicker name="txtTriageDate" [(bsValue)]="triageDate" value="{{triageDate | date: 'dd/MM/yyyy'}}" (focusout)="onFocusOutTriageDifference()">
+        </div>
+        <div class="col-sm-2">
+          <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtTriageTime" [(ngModel)]="triageTime" (focusout)="onFocusOutTriageDifference()"></timepicker>
+        </div>
+        <label class="col-sm-2 col-form-label">Time to Triage : </label>
+        <label class="col-sm-2 col-form-label">{{ triageDateTimeDifference }}</label>
+      </div>
+      <div *ngIf="triageError.isError" class="alert alert-danger col-sm-4">
+        {{ triageError.errorMessage }}
+      </div>
+    </div>
+
+    <h3>Treatment</h3>
+    <div id="OtherCategory">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Treatment Start</label>
+        <div class="col-sm-2">
+          <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default', adaptivePosition: true }" class="form-control" bsDatepicker name="txtTreatmentDate" [(bsValue)]="treatmentDate" value="{{treatmentDate | date: 'dd/MM/yyyy'}}" (focusout)="onFocusOutTreatmentDifference()">
+        </div>
+        <div class="col-sm-2">
+          <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtTreatmentTime" [(ngModel)]="treatmentTime" (focusout)="onFocusOutTreatmentDifference()"></timepicker>
+        </div>
+        <label class="col-sm-2 col-form-label">Time to Treatment : </label>
+        <label class="col-sm-2 col-form-label">{{ treatmentDateTimeDifference }}</label>
+      </div>
+      <div *ngIf="treatmentError.isError" class="alert alert-danger col-sm-4">
+        {{ treatmentError.errorMessage }}
+      </div>
+    </div>
+
+    <h3>Referral</h3>
+    <div id="Surgery">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Referral Specialty</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlRefSpecialty" name="ddlRefSpecialty" [(ngModel)]="encounter.referredtospecialty">
+            <option value="Please Select">---Please Select---</option>
+            <option value="ENT">ENT</option>
+            <option value="Max Fax">Max Fax</option>
+            <option value="Medicine">Medicine</option>
+            <option value="Obs & Gynae">Obs & Gynae</option>
+            <option value="Opthalmology">Opthalmology</option>
+            <option value="Paediatrics">Paediatrics</option>
+            <option value="Psychiatry">Psychiatry</option>
+            <option value="RAIT">RAIT</option>
+            <option value="Surgery">Surgery</option>
+            <option value="UCC GP">UCC GP</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Referral Time</label>
+        <div class="col-sm-2">
+          <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default', adaptivePosition: true }" class="form-control" bsDatepicker name="txtReferralDate" [(bsValue)]="referralDate" value="{{referralDate | date: 'dd/MM/yyyy'}}" (focusout)="onFocusOutReferralDifference()">
+        </div>
+        <div class="col-sm-2">
+          <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtReferralTime" [(ngModel)]="referralTime" (focusout)="onFocusOutReferralDifference()"></timepicker>
+        </div>
+        <label class="col-sm-2 col-form-label">Referral to Decision to Admit : </label>
+        <label class="col-sm-2 col-form-label">{{ referralDateTimeDifference }}</label>
+      </div>
+      <div *ngIf="referralError.isError" class="alert alert-danger col-sm-4">
+        {{ referralError.errorMessage }}
+      </div>
+    </div>
+
+    <h3>Disposal</h3>
+    <div id="Psychiatry">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Disposal</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlDisposal" name="ddlDisposal" [(ngModel)]="encounter.disposal">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Admitted to a Hospital Bed">Admitted to a Hospital Bed</option>
+            <option value="Discharged - follow up GP">Discharged - follow up GP</option>
+            <option value="Discharged – No follow up">Discharged – No follow up</option>
+            <option value="Referred to A&E Clinic">Referred to A&E Clinic</option>
+            <option value="Referred to Fracture Clinic">Referred to Fracture Clinic</option>
+            <option value="Referred to other Out-Patient Clinic">Referred to other Out-Patient Clinic</option>
+            <option value="Transferred to other HCP">Transferred to other HCP</option>
+            <option value="Died in Department">Died in Department</option>
+            <option value="Referred to other HCP">Referred to other HCP</option>
+            <option value="Left Department before being seen">Left Department before being seen</option>
+            <option value="Left Department having refused treatment">Left Department having refused treatment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="encounter.disposal=='Admitted to a Hospital Bed'">
+        <label class="col-sm-2 col-form-label">Ward</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="ddlWard" name="ddlWard" [(ngModel)]="encounter.dtaward">
+            <option value="Please Select">---Please Select---</option>
+            <option value="Angus Mackinnon Ward">Angus Mackinnon Ward</option>
+            <option value="Churchill Ward">Churchill Ward</option>
+            <option value="HCA Ward">HCA Ward</option>
+            <option value="Ian Monro Ward">Ian Monro Ward</option>
+            <option value="Jackson Burrows Ward">Jackson Burrows Ward</option>
+            <option value="Jarvis Ward">Jarvis Ward</option>
+            <option value="Margaret Harte Ward">Margaret Harte Ward</option>
+            <option value="Paediatric Ward">Paediatric Ward</option>
+            <option value="Philip Newman Ward">Philip Newman Ward</option>
+            <option value="Spire Ward">Spire Ward</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Treatment Complete Time</label>
+        <div class="col-sm-2">
+          <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default', adaptivePosition: true }" class="form-control" bsDatepicker name="txtTreatmentCompleteDate" [(bsValue)]="treatmentCompleteDate" value="{{treatmentCompleteDate | date: 'dd/MM/yyyy'}}" (focusout)="onFocusOutTreatmentCompleteDifference()">
+        </div>
+        <div class="col-sm-2">
+          <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtTreatmentTime" [(ngModel)]="treatmentCompleteTime" (focusout)="onFocusOutTreatmentCompleteDifference()"></timepicker>
+        </div>
+        <label class="col-sm-2 col-form-label">Time to Treatment Completion : </label>
+        <label class="col-sm-2 col-form-label">{{ treatmentCompleteDateTimeDifference }}</label>
+      </div>
+      <div *ngIf="treatmentCompleteError.isError" class="alert alert-danger col-sm-4">
+        {{ treatmentCompleteError.errorMessage }}
+      </div>
+    </div>
+
+    <h3>Discharge</h3>
+    <div id="Ophthalmology">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Actual Departure Now</label>
+        <div class="col-sm-4">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="chkbxActualDep" [(ngModel)]="encounter.actualdeparturenow" value="1" (change)="checkActualDeparture();">
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Departure Time</label>
+        <div class="col-sm-2">
+          <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default', adaptivePosition: true }" class="form-control" bsDatepicker name="txtDepartureDate" [(bsValue)]="departureDate" value="{{departureDate | date: 'dd/MM/yyyy'}}" (focusout)="onFocusOutDepartureDifference()">
+        </div>
+        <div class="col-sm-2">
+          <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtDepartureTime" [(ngModel)]="departureTime" (focusout)="onFocusOutDepartureDifference()"></timepicker>
+        </div>
+      </div>
+      <div *ngIf="departureError.isError" class="alert alert-danger col-sm-4">
+        {{ departureError.errorMessage }}
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Effective Discharge Time</label>
+        <div class="col-sm-2">
+          <input type="text" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers:false, containerClass: 'theme-default', adaptivePosition: true }" class="form-control" [(bsValue)]="effectiveDischargeDate" bsDatepicker name="txtEffectiveDischargeDate" value="{{effectiveDischargeDate | date: 'dd/MM/yyyy'}}" (focusout)="onFocusOutTrolleyDifference()">
+        </div>
+        <div class="col-sm-2">
+          <timepicker [showMeridian]="false" [minuteStep]="1" [showSpinners]="false" name="txtEffectiveDischargeTime" [(ngModel)]="effectiveDischargeTime" (focusout)="onFocusOutTrolleyDifference()"></timepicker>
+        </div>
+        <label class="col-sm-2 col-form-label">Trolley Time : </label>
+        <label class="col-sm-2 col-form-label">{{ trolleyTimeDifference }}</label>
+      </div>
+      <div *ngIf="effectiveDischargeError.isError" class="alert alert-danger col-sm-4">
+        {{ effectiveDischargeError.errorMessage }}
+      </div>
+    </div>
+
+    <h3>Length of Stay</h3>
+    <div id="los" class="form-group row">
+      <label class="col-sm-2 col-form-label">Length of Stay</label>
+      <label class="col-sm-2 col-form-label">{{ effectiveDischargeDateTimeDifference }}</label>
+    </div>
+
+    <h3>Breach Override</h3>
+    <div id="ObsandGynae">
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="chkbxBreach" [(ngModel)]="encounter.editbreachoveride" value="1" (change)="checkBreached();">
+            <label class="form-check-label" for="chkbxBreach">Edit Breach Information Override</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="encounter.editbreachoveride">
+        <label class="col-sm-2 col-form-label">Reason for Breach</label>
+        <div class="col-sm-4">
+          <textarea class="form-control" name="taReasonForBreach" [(ngModel)]="encounter.reasonforbreach"></textarea>
+        </div>
+      </div>
+    </div>
+    <div id="saveAndCancel">
+      <div class="col-sm-12">
+        <button class="btn btn-primary" type="button" style="float:right;width:20%" [disabled]="admitError.isError || triageError.isError || treatmentError.isError || referralError.isError || treatmentCompleteError.isError || departureError.isError || effectiveDischargeError.isError" (click)="saveAdmissionDetails();AdminForm.reset();">Save</button>
+        <button class="btn btn-light" type="button" style="float:left;width:20%" (click)="AdminForm.reset();clearForm();">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
